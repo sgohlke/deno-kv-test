@@ -52,8 +52,8 @@ async function handleRequest(request: Request): Promise<Response> {
          const person = await kv.get(['persons', personId])
          if (!person || !person.value) {
             return logAndReturnErrorResponse(
-               responseHeaders,
                `No person found for id: ${personId}`,
+               responseHeaders,
             )
          } else {
             return returnDataResponse(person.value, responseHeaders)

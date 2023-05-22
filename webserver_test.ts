@@ -1,8 +1,5 @@
 import { assertEquals, PersonService } from './deps.ts'
-import {
-   getKv,
-   startPersonServer,
-} from './webserver.ts'
+import { getKv, startPersonServer } from './webserver.ts'
 
 Deno.test('Calling startPersonServer should return expected result', async () => {
    const abortController = new AbortController()
