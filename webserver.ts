@@ -3,7 +3,6 @@ import {
    logAndReturnErrorResponse,
    PersonService,
    returnDataResponse,
-   ServeInit,
    startServer,
 } from './deps.ts'
 
@@ -67,7 +66,7 @@ async function handleRequest(request: Request): Promise<Response> {
    )
 }
 
-export async function startPersonServer(options?: ServeInit) {
+export async function startPersonServer(options: Deno.ServeOptions | Deno.ServeTlsOptions) {
    await initPersonKeyValueStore()
    startServer(handleRequest, options)
 }
