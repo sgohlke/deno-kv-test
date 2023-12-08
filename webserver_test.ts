@@ -3,7 +3,7 @@ import { getKv, startPersonServer } from './webserver.ts'
 
 Deno.test('Calling startPersonServer should return expected result', async () => {
    const abortController = new AbortController()
-   await startPersonServer({
+   const server = await startPersonServer({
       port: 7035,
       signal: abortController.signal,
    })
@@ -49,6 +49,7 @@ Deno.test('Calling startPersonServer should return expected result', async () =>
    assertEquals(responseJson, { 'error': 'No person found for id: 17' })
 
    abortController.abort()
+   await server.finished
    const kv = await getKv()
    await kv.close()
 })
