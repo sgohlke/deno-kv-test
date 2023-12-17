@@ -1,4 +1,4 @@
-import { assertEquals, PersonService } from './deps.ts'
+import { assertEquals, FAVICON_SVG_STRING, PersonService } from './deps.ts'
 import { getKv, startPersonServer } from './webserver.ts'
 
 Deno.test('Calling startPersonServer should return expected result', async () => {
@@ -8,11 +8,30 @@ Deno.test('Calling startPersonServer should return expected result', async () =>
       signal: abortController.signal,
    })
 
-   // Test root/fallback route
+   // Test root route
    let response = await fetch('http://localhost:7035/')
    assertEquals(response.status, 200)
    let responseJson = await response.json()
    assertEquals(responseJson.message, 'Hello persons')
+
+   // Test root route without slash
+   response = await fetch('http://localhost:7035')
+   assertEquals(response.status, 200)
+   responseJson = await response.json()
+   assertEquals(responseJson.message, 'Hello persons')
+
+    // Test favicon route
+    response = await fetch('http://localhost:7035/favicon.ico')
+    assertEquals(response.status, 200)
+    assertEquals(response.headers.get('content-type'), 'image/svg+xml')
+    let responseText = await response.text()
+    assertEquals(responseText, FAVICON_SVG_STRING)
+
+    // Test unknown route
+    response = await fetch('http://localhost:7035/unknownroute')
+    assertEquals(response.status, 404)
+    responseJson = await response.json()
+    assertEquals(responseJson.error, 'Not found: /unknownroute')
 
    // Test OPTION request
    response = await fetch('http://localhost:7035/', {
@@ -21,7 +40,7 @@ Deno.test('Calling startPersonServer should return expected result', async () =>
    })
    assertEquals(response.status, 200)
    assertEquals(response.headers.get('Access-Control-Allow-Origin'), 'test')
-   const responseText = await response.text()
+   responseText = await response.text()
    assertEquals(responseText, '')
 
    // Test person route

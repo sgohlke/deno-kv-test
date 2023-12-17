@@ -1,6 +1,6 @@
 {
    "tasks": {
-      "coverage": "deno test --unstable --allow-net --coverage=covresults && deno coverage covresults",
+      "coverage": "deno test --unstable --allow-net --coverage=covresults && deno coverage covresults --detailed",
       "format": "deno fmt --options-indent-width=3 --options-single-quote --options-no-semicolons",
       "lint": "deno lint",
       "start": "deno run --unstable --allow-net runWebserver.ts",

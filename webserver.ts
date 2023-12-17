@@ -3,6 +3,7 @@ import {
    logAndReturnErrorResponse,
    PersonService,
    returnDataResponse,
+   returnDefaultFavicon,
 } from './deps.ts'
 
 let kv: Deno.Kv
@@ -57,15 +58,26 @@ async function handleRequest(request: Request): Promise<Response> {
             return returnDataResponse(person.value, responseHeaders)
          }
       }
-   }
+   } else if (pathname.includes('favicon')) {
+      console.log('return favicon')
+      return returnDefaultFavicon()
+   } else if (pathname === '/' || pathname === '') {
+      return returnDataResponse(
+         { message: 'Hello persons' },
+         responseHeaders,
+      )
+   } 
 
-   return returnDataResponse(
-      { message: 'Hello persons' },
+   return logAndReturnErrorResponse(
+      `Not found: ${pathname}`,
       responseHeaders,
+      404,
    )
 }
 
-export async function startPersonServer(options: Deno.ServeOptions | Deno.ServeTlsOptions): Promise<Deno.HttpServer> {
+export async function startPersonServer(
+   options: Deno.ServeOptions | Deno.ServeTlsOptions,
+): Promise<Deno.HttpServer> {
    await initPersonKeyValueStore()
    return Deno.serve(options, handleRequest)
 }
