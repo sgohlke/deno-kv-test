@@ -59,7 +59,6 @@ async function handleRequest(request: Request): Promise<Response> {
          }
       }
    } else if (pathname.includes('favicon')) {
-      console.log('return favicon')
       return returnDefaultFavicon()
    } else if (pathname === '/' || pathname === '') {
       return returnDataResponse(
