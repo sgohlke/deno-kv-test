@@ -8,8 +8,8 @@ export {
 
 export {
    FAVICON_SVG_STRING,
+   JSON_CONTENT_TYPE_HEADER,
    logAndReturnErrorResponse,
    returnDataResponse,
-   returnDefaultFavicon,
-} from 'https://raw.githubusercontent.com/sgohlke/deno-web/8.2.0/response/responseFunctions.ts'
-export { JSON_CONTENT_TYPE_HEADER } from 'https://raw.githubusercontent.com/sgohlke/deno-web/8.2.0/response/ResponseHeaders.ts'
+   returnDefaultFavicon
+} from 'jsr:@sgohlke/deno-web@^8.2.3'
